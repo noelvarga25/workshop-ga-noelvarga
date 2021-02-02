@@ -11,13 +11,26 @@ jobs:
           ref: dev
 
       - name: unit-test
-        run: make tests_run > test_tests.txt
+        run: make tests_run
 
       - name: coverage
         run: make coverage > test_coverage.txt
+
+      - name: Check file existence
+        id: check_files
+        uses: andstor/file-existence-action@v1.0.1
+        with:
+          files: "test_coverage.txt"
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
           name: Upload
           path: ./test_*.txt
+          retention-days: 5
+          if-no-files-found: echo No file(s) found && return 0
+
+      - name: cat-file
+        uses: andstor/file-existence-action@v1.0.1
+        if: test.check_files.outputs.files_exists == 'true'
+        run: cat test_coverage.txt
