@@ -10,6 +10,15 @@ jobs:
         with:
           ref: dev
 
+      - name: maker
+        run: make
+
+      - name: check-bin
+        id: check_bin
+        uses: andstor/file-existence-action@v1.0.1
+        with:
+          files: "test_coverage.txt"
+
       - name: unit-test
         run: make tests_run
 
@@ -30,6 +39,14 @@ jobs:
           retention-days: 5
           if-no-files-found: ignore
 
-      - name: cat-file
+      - name: Summary
+        run: echo -----------=========SUMMARY=========-----------
+        if: steps.check_bin.outputs.files_exists == 'true'
+        run: echo [SUCCESS] The binary file was succesfuly created !
+        if: steps.check_bin.outputs.files_exists == 'false'
+        run: echo [FAILED] No binary was created !
         if: steps.check_files.outputs.files_exists == 'true'
         run: cat test_coverage.txt
+
+      - name: cleanup
+        run: make fclean
