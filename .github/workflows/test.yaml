@@ -4,14 +4,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: docker://epitechcontent/epitest-docker
-
-    checkout:
+    steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
         with:
           ref: dev
 
-    test:
       - name: unit-test
         run: make tests_run
 
@@ -24,7 +22,6 @@ jobs:
         with:
           files: "test_coverage.txt"
 
-    upload:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
@@ -33,7 +30,6 @@ jobs:
           retention-days: 5
           if-no-files-found: echo No file(s) found && return 0
 
-    cat:
       - name: cat-file
-        if: test.check_files.outputs.files_exists == 'true'
+        if: steps.check_files.outputs.files_exists == 'true'
         run: cat test_coverage.txt
