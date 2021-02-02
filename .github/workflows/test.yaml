@@ -31,6 +31,5 @@ jobs:
           if-no-files-found: echo No file(s) found && return 0
 
       - name: cat-file
-        uses: andstor/file-existence-action@v1.0.1
         if: test.check_files.outputs.files_exists == 'true'
         run: cat test_coverage.txt
