@@ -1,1 +1,8 @@
-echo Welcome to the Github Actions workshop !
+name: MyFirstAction
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo Welcome to the Github Actions workshop !
