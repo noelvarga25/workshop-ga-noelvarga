@@ -10,7 +10,7 @@ jobs:
           ref: dev
 
       - name: unit-test
-        run: make test_run
+        run: make tests_run
 
       - name: coverage
         run: make coverage
