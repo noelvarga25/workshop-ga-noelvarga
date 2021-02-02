@@ -1,6 +1,7 @@
 name: unit-test
 on: [push]
-  tests:
+jobs:
+  test:
     runs-on: ubuntu-latest
     container: docker://epitechcontent/epitest-docker
     steps:
