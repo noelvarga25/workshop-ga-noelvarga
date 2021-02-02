@@ -28,7 +28,7 @@ jobs:
           name: Upload
           path: ./test_*.txt
           retention-days: 5
-          if-no-files-found: echo No file(s) found && return 0
+          if-no-files-found: ignore
 
       - name: cat-file
         if: steps.check_files.outputs.files_exists == 'true'
