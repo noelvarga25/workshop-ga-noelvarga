@@ -1,13 +1,5 @@
 name: unit-test
 on: [push]
-jobs:
-
-  hello:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Hello
-        run: echo Hello World !
-
   tests:
     runs-on: ubuntu-latest
     container: docker://epitechcontent/epitest-docker
@@ -18,7 +10,13 @@ jobs:
           ref: dev
 
       - name: unit-test
-        run: make tests_run
+        run: make tests_run > test_tests.txt
 
       - name: coverage
-        run: make coverage
+        run: make coverage > test_coverage.txt
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Upload
+          path: ./test_*.txt
