@@ -1,8 +1,14 @@
-name: MyFirstAction
+name: unit-test
 on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo
-        run: echo Welcome to the Github Actions workshop !
+      - name: Checkout
+      uses: actions/checkout@v2.3.4
+      repository: ${{ github.repository }}
+      ref: 'dev'
+      - name: unit-test
+        run: make test_run
+      - name: coverage
+        run: make coverage
